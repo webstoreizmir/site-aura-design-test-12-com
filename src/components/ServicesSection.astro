@@ -1,0 +1,67 @@
+---
+interface Service {
+  title: string;
+  description: string;
+  icon: string;
+}
+
+interface Props {
+  services: Service[];
+  featureKeywords: string[];
+}
+
+const { services, featureKeywords } = Astro.props;
+---
+
+<section id="services" class="py-32 bg-white relative overflow-hidden">
+  <!-- Decorative Background -->
+  <div class="absolute top-0 right-0 w-1/3 h-1/3 bg-[rgb(var(--color-primary))] opacity-5 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
+
+  <div class="container-custom relative z-10">
+    <div class="max-w-2xl mb-20">
+      <span class="text-[rgb(var(--color-primary))] font-bold tracking-wider uppercase text-sm mb-2 block">Hizmetlerimiz</span>
+      <h2 class="text-4xl md:text-5xl font-heading font-bold text-slate-900 mb-6">
+        Size Nasıl Değer Katabiliriz?
+      </h2>
+      <div class="h-1.5 w-24 bg-[rgb(var(--color-primary))] rounded-full"></div>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {services.map((service, index) => {
+        const keyword = featureKeywords[index % featureKeywords.length] || 'office';
+        // GÜNCELLEME: Hizmetler için de gerçek stok fotoğraf
+        const lockId = Math.floor(Math.random() * 1000) + index; // Benzersiz olsun
+        const imgUrl = `https://loremflickr.com/600/400/${encodeURIComponent(keyword)},work/all?lock=${lockId}`;
+        
+        return (
+          <div class="group bg-white rounded-3xl p-2 hover:shadow-2xl hover:shadow-[rgb(var(--color-primary))]/10 transition-all duration-500 border border-slate-100">
+            <div class="relative h-64 rounded-2xl overflow-hidden mb-6 bg-slate-100">
+               <img 
+                src={imgUrl} 
+                alt={service.title} 
+                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+               />
+               <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-80"></div>
+               <div class="absolute bottom-4 left-4 bg-white/10 backdrop-blur-md border border-white/20 p-3 rounded-xl text-3xl">
+                 {service.icon}
+               </div>
+            </div>
+            
+            <div class="px-6 pb-8">
+              <h3 class="text-2xl font-heading font-bold mb-3 text-slate-900 group-hover:text-[rgb(var(--color-primary))] transition-colors">
+                {service.title}
+              </h3>
+              <p class="text-slate-600 leading-relaxed mb-6 line-clamp-3">
+                {service.description}
+              </p>
+              <a href="#contact" class="inline-flex items-center text-[rgb(var(--color-primary))] font-bold tracking-wide group/link">
+                İncele
+                <svg class="w-4 h-4 ml-2 transform group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+              </a>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>

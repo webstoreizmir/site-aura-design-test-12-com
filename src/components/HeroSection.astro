@@ -1,0 +1,63 @@
+---
+interface Props {
+  headline: string;
+  subheadline: string;
+  ctaButtonText: string;
+  imageKeyword: string;
+}
+
+const { headline, subheadline, ctaButtonText, imageKeyword } = Astro.props;
+
+// GÜNCELLEME: Pollinations yerine LoremFlickr kullanıyoruz.
+// Gerçek fotoğraf çeker, limit sorunu yoktur.
+// "lock" parametresi, her yenilemede aynı resmin kalmasını sağlar (yanıp sönmeyi engeller).
+const lockId = Math.floor(Math.random() * 1000);
+const bgImage = `https://loremflickr.com/1920/1080/${encodeURIComponent(imageKeyword.split(' ')[0])},architecture,business/all?lock=${lockId}`;
+---
+
+<section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+  <!-- Background Image -->
+  <div class="absolute inset-0 z-0">
+    <img 
+      src={bgImage} 
+      alt="Hero Background" 
+      class="w-full h-full object-cover"
+    />
+    <!-- Koyu Overlay -->
+    <div class="absolute inset-0 bg-slate-900/70"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"></div>
+  </div>
+  
+  <!-- Content -->
+  <div class="container mx-auto px-6 relative z-10 pt-20 text-center">
+    <div class="max-w-5xl mx-auto">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white/80 text-sm font-medium mb-8 backdrop-blur-sm animate-fade-in">
+        <span class="w-2 h-2 rounded-full bg-[rgb(var(--color-primary))] animate-pulse"></span>
+        Premium Çözümler
+      </div>
+
+      <h1 class="text-5xl md:text-7xl lg:text-8xl font-heading font-bold mb-8 text-white leading-tight drop-shadow-2xl">
+        {headline}
+      </h1>
+      
+      <p class="text-lg md:text-2xl text-slate-300 mb-12 font-body max-w-3xl mx-auto leading-relaxed">
+        {subheadline}
+      </p>
+      
+      <div class="flex flex-col sm:flex-row gap-5 justify-center">
+        <a 
+          href="#contact"
+          class="px-8 py-4 text-lg font-bold text-white rounded-xl bg-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-secondary))] transition-all duration-300 shadow-xl shadow-[rgb(var(--color-primary))]/20 transform hover:-translate-y-1"
+        >
+          {ctaButtonText}
+        </a>
+        <a 
+          href="#services"
+          class="px-8 py-4 text-lg font-bold text-white rounded-xl bg-white/10 border border-white/10 hover:bg-white/20 backdrop-blur-md transition-all duration-300"
+        >
+          Hizmetleri Keşfet
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
